@@ -23,19 +23,31 @@ while True:
         b = (x * origin_x + y * origin_y + z * origin_z)/(math.pow(r, 2))
       except:
         b = 0
+      # if b <= 0:
+      #   print(' ', end='')
+      # elif b > 0 and b <= 0.3:
+      #   print('*', end='')
+      # elif b > 0.3 and b <= 0.5:
+      #   print('=', end='')
+      # elif b > 0.5 and b <= 0.7:
+      #   print('#', end='')
+      # elif b > 0.7 and b <= 0.9:
+      #   print('€', end='')
+      # elif b > 0.9 and b <= 1:
+      #   print('@', end='')
+      
       if b <= 0:
-        print(' ', end='')
+        print('M', end='')
       elif b > 0 and b <= 0.3:
         print('*', end='')
       elif b > 0.3 and b <= 0.5:
-        print('=', end='')
+        print('+', end='')
       elif b > 0.5 and b <= 0.7:
-        print('#', end='')
+        print('-', end='')
       elif b > 0.7 and b <= 0.9:
-        print('€', end='')
+        print('.', end='')
       elif b > 0.9 and b <= 1:
-        print('@', end='')
-      # print(f" {x}:{y} ", end="")
+        print(' ', end='')
     print('')
   origin_x += turner
 
