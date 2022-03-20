@@ -52,16 +52,19 @@ class Sphere:
     write_file.write(self.calc())
     write_file.close()
 
-r = int(input('Enter the sphere\'s radius: '))
-origin_x = int(input('Enter the sphere\'s x origin: '))
-origin_y = int(input('Enter the sphere\'s y origin: '))
+def prompt():
+  r = int(input('Enter the sphere\'s radius: '))
+  origin_x = int(input('Enter the sphere\'s x origin: '))
+  origin_y = int(input('Enter the sphere\'s y origin: '))
 
-klot = Sphere(r, origin_x, origin_y)
-klot.calc()
-klot.show()
+  klot = Sphere(r, origin_x, origin_y)
+  klot.calc()
+  klot.show()
 
-text_file = input('Enter the text file you want to save the sphere to: ')
-if '.txt' in text_file[len(text_file)-4:]:
-  klot.save(text_file)
-else:
-  klot.save(text_file+'.txt')
+  text_file = input('Enter the text file you want to save the sphere to: ')
+  if '.txt' in text_file[len(text_file)-4:]:
+    klot.save(text_file)
+  else:
+    klot.save(text_file+'.txt')
+
+prompt()
