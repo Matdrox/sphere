@@ -9,6 +9,7 @@ class Sphere:
     self.origin_y = origin_y
   
   def calc(self):
+    light = ['.', ':', '+', '*', '=', '!', ' ']
     result = ''
     r = self.r
     origin_x = self.origin_x
@@ -19,26 +20,22 @@ class Sphere:
           z = math.sqrt(math.pow(r, 2) - math.pow(x, 2) - math.pow(y, 2))
           b = (x * origin_x + y * origin_y + z * origin_z)/(math.pow(r, 2))
         except:
-          b = 0
+          b = 2
 
         if b <= 0:
-          # print('M', end='')
-          result += 'M'
+          result += light[5]
         elif b > 0 and b <= 0.3:
-          # print('*', end='')
-          result += '*'
+          result += light[4]
         elif b > 0.3 and b <= 0.5:
-          # print('+', end='')
-          result += '+'
+          result += light[3]
         elif b > 0.5 and b <= 0.7:
-          # print('-', end='')
-          result += '-'
+          result += light[2]
         elif b > 0.7 and b <= 0.9:
-          # print('.', end='')
-          result += '.'
+          result += light[1]
         elif b > 0.9 and b <= 1:
-          # print(' ', end='')
-          result += ' '
+          result += light[0]
+        elif b == 2:
+          result += light[6]
       result += '\n'
       origin_z = math.sqrt(math.pow(r, 2) - math.pow(origin_x, 2) - math.pow(origin_y, 2))
     return result
@@ -48,6 +45,7 @@ class Sphere:
     print(art)
 
   def save(self, text_file):
+    
     write_file = open(text_file, 'w')
     write_file.write(self.calc())
     write_file.close()
@@ -58,8 +56,12 @@ def prompt():
   origin_y = int(input('Enter the sphere\'s y origin: '))
 
   klot = Sphere(r, origin_x, origin_y)
-  klot.calc()
-  klot.show()
+  try:
+    # klot.calc()
+    klot.show()
+  except ValueError:
+    print("Your input is mathematically incorrect. Please enter new values...")
+    return prompt()
 
   text_file = input('Enter the text file you want to save the sphere to: ')
   if '.txt' in text_file[len(text_file)-4:]:

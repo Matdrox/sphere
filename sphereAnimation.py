@@ -22,7 +22,7 @@ while True:
         z = math.sqrt(math.pow(r, 2) - math.pow(x, 2) - math.pow(y, 2))
         b = (x * origin_x + y * origin_y + z * origin_z)/(math.pow(r, 2))
       except:
-        b = 0
+        b = 2
       # if b <= 0:
       #   print(' ', end='')
       # elif b > 0 and b <= 0.3:
@@ -47,6 +47,8 @@ while True:
       elif b > 0.7 and b <= 0.9:
         print('.', end='')
       elif b > 0.9 and b <= 1:
+        print(' ', end='')
+      elif b == 2:
         print(' ', end='')
     print('')
   origin_x += turner
