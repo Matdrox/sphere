@@ -52,12 +52,9 @@ class Sphere:
     write_file.write(self.calc())
     write_file.close()
 
-def prompt():
+def prompt(r, origin_x, origin_y):
   try:
     # klot.calc()
-    r = int(input('Enter the sphere\'s radius: '))
-    origin_x = int(input('Enter the sphere\'s x origin: '))
-    origin_y = int(input('Enter the sphere\'s y origin: '))
 
     klot = Sphere(r, origin_x, origin_y)
     klot.show()
@@ -71,4 +68,7 @@ def prompt():
   else:
     klot.save(text_file+'.txt')
 
-prompt()
+# r = int(input('Enter the sphere\'s radius: '))
+# origin_x = int(input('Enter the sphere\'s x origin: '))
+# origin_y = int(input('Enter the sphere\'s y origin: '))
+# prompt(r, origin_x, origin_y)
