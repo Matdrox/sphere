@@ -59,8 +59,8 @@ class Sphere:
 def prompt(r, origin_x, origin_y):
     try:
         klot = Sphere(r, origin_x, origin_y)
-        # klot.show()
-        klot.calc()
+        klot.show()
+        # klot.calc()
     except ValueError:
         print("Your input is mathematically incorrect. Please enter new values...")
         return prompt()
@@ -71,7 +71,7 @@ def prompt(r, origin_x, origin_y):
     else:
         klot.save(text_file+'.txt')
 
-    # r = int(input('Enter the sphere\'s radius: '))
-    # origin_x = int(input('Enter the sphere\'s x origin: '))
-    # origin_y = int(input('Enter the sphere\'s y origin: '))
-    # prompt(r, origin_x, origin_y)
+r = int(input('Enter the sphere\'s radius: '))
+origin_x = int(input('Enter the sphere\'s x origin: '))
+origin_y = int(input('Enter the sphere\'s y origin: '))
+prompt(r, origin_x, origin_y)
