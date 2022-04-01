@@ -43,8 +43,18 @@ def create_sphere(r, origin_x, origin_y):
     lbl_sphere.pack()
 
 
+def save_sphere(klot, file_name):
+    text_file = input('Enter the text file you want to save the sphere to: ')
+    if '.txt' in text_file[len(text_file)-4:]:
+        klot.save(text_file)
+    else:
+        klot.save(text_file+'.txt')
+
 btn_create_sphere = tk.Button(root, width=15, bg='#ffd100', text='Create Sphere', command=lambda: create_sphere(
     int(tbx_radius.get()), int(tbx_origin_x.get()), int(tbx_origin_y.get())))
 btn_create_sphere.grid(row=2, column=16)
+
+btn_save_sphere = tk.Button(root, width=15, bg='#ffd100', text='Save Sphere', command=lambda: save_sphere(klo))
+btn_save_sphere.grid(row=3, column=16)
 
 root.mainloop()

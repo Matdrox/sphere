@@ -27,7 +27,7 @@ class Sphere:
         :return: Sträng fylld med karaktärer som passar värdena på ljusstyrkan inom
         koordinaterna [-r, r]
         '''
-        light = ['.', ':', '-', '+', '=', '!', ' ']
+        light = [' ', '.', '-', '+', '*', 'M', ' ']
         result = ''
         r = self.r
         origin_x = self.origin_x
@@ -70,40 +70,55 @@ class Sphere:
         art = self.calc()
         print(art)
 
-    def save(self, text_file):
+    def save(self):
         '''
         Skriver ut klotet till en textfil
         :param file: Filen där klotet sparas
         :write: Skriver klotet till filen
         '''
-        write_file = open(text_file, 'w')
+        text_file = input(
+            'Enter the text file you want to save the sphere to: ')
+        if '.txt' in text_file[len(text_file)-4:]:
+            write_file = open(text_file, 'w')
+        else:
+            write_file = open(text_file+'.txt', 'w')
+
         write_file.write(self.calc())
         write_file.close()
 
-    def calc_shadow(self):      # Inte klart än
-        '''
-        Räknar ut skuggorna
-        :return: Sträng med klotet tillsammans med den uträknade skuggan
-        '''
 
-
-def prompt(r, origin_x, origin_y):        # För GUI
+def prompt():
     '''
     Tar in input för att skapa ett nytt klot
     :Sphere: klot: Skapa nytt klotobjekt
     '''
     try:
+        r = int(input('Enter the sphere\'s radius: '))
+        origin_x = int(input('Enter the sphere\'s x origin: '))
+        origin_y = int(input('Enter the sphere\'s y origin: '))
         klot = Sphere(r, origin_x, origin_y)
-        klot.calc()
+        klot.show()
     except ValueError:
-        print("Your input is mathematically incorrect. Please enter new values...")
+        print("Your input is logically incorrect. Please enter new values...")
         return prompt()
 
-    text_file = input('Enter the text file you want to save the sphere to: ')
-    if '.txt' in text_file[len(text_file)-4:]:
-        klot.save(text_file)
-    else:
-        klot.save(text_file+'.txt')
+    wrongs = 0
+    while True:
+        answer = input(
+            'Would you like to save the sphere to a file? Answer with Y/N: ')
+        if answer.upper() == 'Y':
+            klot.save()
+            return False
+        elif answer.upper() == 'N':
+            print('Have a nice day!')
+            return False
+        else:
+            if wrongs < 2:
+                print('Please answer with Y/N...\n')
+                wrongs += 1
+            else:
+                print('Can\'t follow instructions, can you...?')
+                return False
 
 
-prompt(r, origin_x, origin_y)
+prompt()
