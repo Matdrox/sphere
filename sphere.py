@@ -62,14 +62,6 @@ class Sphere:
             result += '\n'
         return result
 
-    def show(self):
-        '''
-        Skriver ut klotet i terminalen
-        :print: Strängen
-        '''
-        art = self.calc()
-        print(art)
-
     def save(self, text_file):
         '''
         Skriver ut klotet till en textfil
@@ -104,6 +96,3 @@ def prompt(r, origin_x, origin_y):        # För GUI
         klot.save(text_file)
     else:
         klot.save(text_file+'.txt')
-
-
-prompt(r, origin_x, origin_y)
