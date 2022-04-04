@@ -58,7 +58,25 @@ class Sphere:
                 elif b > 0.9 and b <= 1:
                     result += light[0]
                 elif b == 2:
-                    result += light[6]
+                    # result += light[6]
+                    shadow_x = x + 2*origin_x
+                    shadow_y = y + 2*origin_y
+                    try:
+                        origin_z = math.sqrt(
+                            math.pow(r, 2) - math.pow(shadow_x, 2) - math.pow(shadow_y, 2))
+                        z = math.sqrt(math.pow(r, 2) -
+                                      math.pow(shadow_x, 2) - math.pow(shadow_y, 2))
+                        b = (shadow_x * origin_x + shadow_y * origin_y +
+                             z * origin_z)/(math.pow(r, 2))
+
+                        result += 'Y'
+                    except:
+                        result += light[6]
+
+                # P är punkt i bakgrunden: b == 2
+                # O är ursprungspunkten: (origin_x, origin_y)
+                # i är en skalär
+                # Linjen ges av P + iO
             result += '\n'
         return result
 
@@ -99,7 +117,7 @@ def prompt():
         klot = Sphere(r, origin_x, origin_y)
         klot.show()
     except ValueError:
-        print("Your input is logically incorrect. Please enter new values...")
+        print("Your input    is logically incorrect. Please enter new values...")
         return prompt()
 
     wrongs = 0

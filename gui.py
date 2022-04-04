@@ -16,13 +16,19 @@ def save_sphere(klot, file_name):
 
 
 def change_pos(event):
+    # if len(tbx_radius.get()) > 0:
+    #     if event.x > int(lbl_sphere.winfo_width()/2-int(tbx_radius.get())*8) and event.x < int(lbl_sphere.winfo_width()/2+int(tbx_radius.get())*8):
+    #         if event.y > int(lbl_sphere.winfo_height()/2-int(tbx_radius.get())*8) and event.y < int(lbl_sphere.winfo_width()/2+int(tbx_radius.get())*8):
+    #             print(
+    #                 f'({str(event.x)}, {str(event.y)})')
+    #             create_sphere(int(tbx_radius.get()), event.x, event.y)
+    # # print(int(tbx_radius.get()))
     if len(tbx_radius.get()) > 0:
-        if event.x > int(lbl_sphere.winfo_width()/2-int(tbx_radius.get())*8) and event.x < int(lbl_sphere.winfo_width()/2+int(tbx_radius.get())*8):
-            if event.y > int(lbl_sphere.winfo_height()/2-int(tbx_radius.get())*8) and event.y < int(lbl_sphere.winfo_width()/2+int(tbx_radius.get())*8):
+        if event.x > int(lbl_sphere.winfo_width()/2-int(tbx_radius.get())*6) and event.x < int(lbl_sphere.winfo_width()/2+int(tbx_radius.get())*8):
+            if event.y > int(lbl_sphere.winfo_height()/2-int(tbx_radius.get())*6) and event.y < int(lbl_sphere.winfo_width()/2+int(tbx_radius.get())*8):
+                print(f'Mouse Coordinates: ({str(event.x)}, {str(event.y)})')
                 print(
-                    f'({str(int(event.x/int(tbx_radius.get())) - int(tbx_radius.get())*2)}, {str(event.y)})')
-                # create_sphere(int(tbx_radius.get()), event.x, event.y)
-    # print(int(tbx_radius.get()))
+                    f'Mapped Coordinates: ({str(int(30*(30/event.x)))}, {str(event.y)})')
 
 
 root = tk.Tk()

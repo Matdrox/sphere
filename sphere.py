@@ -27,7 +27,7 @@ class Sphere:
         :return: Sträng fylld med karaktärer som passar värdena på ljusstyrkan inom
         koordinaterna [-r, r]
         '''
-        light = ['.', ':', '-', '+', '=', '!', ' ']
+        light = ['.', ':', '-', '+', '=', '!', ' ', '¨']
         result = ''
         r = self.r
         origin_x = self.origin_x
@@ -58,7 +58,22 @@ class Sphere:
                 elif b > 0.9 and b <= 1:
                     result += light[0]
                 elif b == 2:
-                    result += light[6]
+                    # result += light[6]
+                    shadow_x = x + origin_x
+                    shadow_y = y + origin_y
+                    try:
+                        origin_z = math.sqrt(
+                            math.pow(r, 2) - math.pow(shadow_x, 2) - math.pow(shadow_y, 2))
+                        z = math.sqrt(math.pow(r, 2) -
+                                      math.pow(shadow_x, 2) - math.pow(shadow_y, 2))
+                        b = (shadow_x * origin_x + shadow_y * origin_y +
+                             z * origin_z)/(math.pow(r, 2))
+
+                        result += light[7]
+                        origin_z = math.sqrt(
+                            math.pow(r, 2) - math.pow(origin_x, 2) - math.pow(origin_y, 2))
+                    except:
+                        result += light[6]
             result += '\n'
         return result
 
