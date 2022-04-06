@@ -29,14 +29,16 @@ class Sphere:
         '''
         light = ['.', ':', '-', '+', '=', '!', ' ', '¨']
         result = ''
+        n = 50
+        m = 50
         r = self.r
         origin_x = self.origin_x
         origin_y = self.origin_y
         origin_z = math.sqrt(
             math.pow(r, 2) - math.pow(origin_x, 2) - math.pow(origin_y, 2))
 
-        for y in range(-r, r+1):
-            for x in range(-r, r+1):
+        for y in range(-m, m+1):
+            for x in range(-n, n+1):
                 try:
                     z = math.sqrt(math.pow(r, 2) -
                                   math.pow(x, 2) - math.pow(y, 2))
@@ -58,9 +60,8 @@ class Sphere:
                 elif b > 0.9 and b <= 1:
                     result += light[0]
                 elif b == 2:
-                    # result += light[6]
-                    shadow_x = x + origin_x
-                    shadow_y = y + origin_y
+                    shadow_x = x + 0.5*origin_x
+                    shadow_y = y + 0.5*origin_y
                     try:
                         origin_z = math.sqrt(
                             math.pow(r, 2) - math.pow(shadow_x, 2) - math.pow(shadow_y, 2))

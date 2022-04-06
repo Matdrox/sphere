@@ -21,7 +21,7 @@ class Sphere:
         self.origin_x = origin_x
         self.origin_y = origin_y
 
-    def calc(self):
+    def calc(self, m, n):
         '''
         Räknar ut ljusstyrkan med hjälp av skalärprodukt
         :return: Sträng fylld med karaktärer som passar värdena på ljusstyrkan inom
@@ -58,43 +58,25 @@ class Sphere:
                 elif b > 0.9 and b <= 1:
                     result += light[0]
                 elif b == 2:
-                    result += light[6]
-            result += '\n'
-        return result
+                    # result += light[6]
+                    shadow_x = x + 2*origin_x
+                    shadow_y = y + 2*origin_y
+                    try:
+                        origin_z = math.sqrt(
+                            math.pow(r, 2) - math.pow(shadow_x, 2) - math.pow(shadow_y, 2))
+                        z = math.sqrt(math.pow(r, 2) -
+                                      math.pow(shadow_x, 2) - math.pow(shadow_y, 2))
+                        b = (shadow_x * origin_x + shadow_y * origin_y +
+                             z * origin_z)/(math.pow(r, 2))
 
-    def shadow(self):
-        light = [' ', '.', '-', '+', '*', 'M', ' ']
-        result = ''
-        r = self.r
-        origin_x = self.origin_x
-        origin_y = self.origin_y
-        origin_z = math.sqrt(
-            math.pow(r, 2) - math.pow(origin_x, 2) - math.pow(origin_y, 2))
+                        result += 'Y'
+                    except:
+                        result += light[6]
 
-        for y in range(-r, r+1):
-            for x in range(-r, r+1):
-                try:
-                    z = math.sqrt(math.pow(r, 2) -
-                                  math.pow(x, 2) - math.pow(y, 2))
-                    b = (x * origin_x + y * origin_y +
-                         z * origin_z)/(math.pow(r, 2))
-                except:
-                    b = 2
-
-                if b <= 0:
-                    result += light[5]
-                elif b > 0 and b <= 0.3:
-                    result += light[4]
-                elif b > 0.3 and b <= 0.5:
-                    result += light[3]
-                elif b > 0.5 and b <= 0.7:
-                    result += light[2]
-                elif b > 0.7 and b <= 0.9:
-                    result += light[1]
-                elif b > 0.9 and b <= 1:
-                    result += light[0]
-                elif b == 2:
-                    result += light[6]
+                # P är punkt i bakgrunden: b == 2
+                # O är ursprungspunkten: (origin_x, origin_y)
+                # i är en skalär
+                # Linjen ges av P + iO
             result += '\n'
         return result
 
@@ -103,7 +85,7 @@ class Sphere:
         Skriver ut klotet i terminalen
         :print: Strängen
         '''
-        art = self.calc()
+        art = self.calc(10, 10)
         print(art)
 
     def save(self):
@@ -135,7 +117,7 @@ def prompt():
         klot = Sphere(r, origin_x, origin_y)
         klot.show()
     except ValueError:
-        print("Your input is logically incorrect. Please enter new values...")
+        print("Your input    is logically incorrect. Please enter new values...")
         return prompt()
 
     wrongs = 0
@@ -156,5 +138,6 @@ def prompt():
             else:
                 print('Can\'t follow instructions, can you...?')
                 return False
+
 
 prompt()
