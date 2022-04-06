@@ -16,19 +16,20 @@ def save_sphere(klot, file_name):
 
 
 def change_pos(event):
-    # if len(tbx_radius.get()) > 0:
-    #     if event.x > int(lbl_sphere.winfo_width()/2-int(tbx_radius.get())*8) and event.x < int(lbl_sphere.winfo_width()/2+int(tbx_radius.get())*8):
-    #         if event.y > int(lbl_sphere.winfo_height()/2-int(tbx_radius.get())*8) and event.y < int(lbl_sphere.winfo_width()/2+int(tbx_radius.get())*8):
-    #             print(
-    #                 f'({str(event.x)}, {str(event.y)})')
-    #             create_sphere(int(tbx_radius.get()), event.x, event.y)
-    # # print(int(tbx_radius.get()))
+    center_x = lbl_sphere.winfo_width()/2
+    center_y = lbl_sphere.winfo_height()/2
+    min_x = int(center_x-int(tbx_radius.get())*8)
+    max_x = int(center_x+int(tbx_radius.get())*8)
+    min_y = int(center_y-int(tbx_radius.get())*8)
+    max_y = int(center_y+int(tbx_radius.get())*8)
+
     if len(tbx_radius.get()) > 0:
-        # if event.x > int(lbl_sphere.winfo_width()/2-int(tbx_radius.get())*6) and event.x < int(lbl_sphere.winfo_width()/2+int(tbx_radius.get())*6):
-        #     if event.y > int(lbl_sphere.winfo_height()/2-int(tbx_radius.get())*6) and event.y < int(lbl_sphere.winfo_width()/2+int(tbx_radius.get())*6):
-                print(f'Mouse Coordinates: ({str(event.x)}, {str(event.y)})')
-                print(
-                    f'Mapped Coordinates: ({str(int(30*(30/event.x)))}, {str(event.y)})')
+        if event.x > min_x and event.x < max_x:
+            if event.y > min_y and event.y < max_y:
+                mapped_x = int((event.x - center_x)/int(tbx_radius.get()))
+                mapped_y = int((event.y - center_y)/int(tbx_radius.get()))
+                print(f'{mapped_x}, {mapped_y}')
+                create_sphere(int(tbx_radius.get()), mapped_x, mapped_y)
 
 
 root = tk.Tk()
@@ -38,7 +39,6 @@ root.geometry("720x800")
 
 frame_width = 700
 frame_height = 700
-
 
 frame = tk.Frame(root, width=frame_width, height=frame_height,
                  borderwidth=10, bg='#202020')
