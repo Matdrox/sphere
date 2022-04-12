@@ -1,8 +1,22 @@
+'''
+Författare: Matei Cananau
+Datum: 2022-04-09
+Revisionsdatum: 2022-04-13
+'''
+
 import tkinter as tk
+from tkinter import messagebox
 import sphere
 
 
-def create_sphere(r, origin_x, origin_y):
+def create_sphere():
+    try:
+        r = int(tbx_radius.get())
+        origin_x = int(tbx_origin_x.get())
+        origin_y = int(tbx_origin_y.get())
+    except ValueError:
+        tk.messagebox.showinfo(
+            'Invalid values', 'Please submit proper values...')
     klot = sphere.Sphere(r, origin_x, origin_y)
     lbl_sphere.config(text=klot.calc())
     return klot
@@ -24,12 +38,18 @@ def change_pos(event):
     max_y = int(center_y+int(tbx_radius.get())*8)
 
     if len(tbx_radius.get()) > 0:
+        # Om musen befinner sig nom sfärens intervall
         if event.x > min_x and event.x < max_x:
             if event.y > min_y and event.y < max_y:
-                mapped_x = int((event.x - center_x)/int(tbx_radius.get()))
-                mapped_y = int((event.y - center_y)/int(tbx_radius.get()))
+                # Mappar origo från vänster-upp till mitten
+                mapped_x = int((event.x - center_x)/int(tbx_radius.get())*2)
+                mapped_y = int((event.y - center_y)/int(tbx_radius.get())*2)
                 print(f'{mapped_x}, {mapped_y}')
-                create_sphere(int(tbx_radius.get()), mapped_x, mapped_y)
+                tbx_origin_x.delete(0, tk.END)
+                tbx_origin_y.delete(0, tk.END)
+                tbx_origin_x.insert(0, str(mapped_x))
+                tbx_origin_y.insert(0, str(mapped_y))
+                create_sphere()
 
 
 root = tk.Tk()
@@ -38,7 +58,7 @@ root.configure(bg='#333533')
 root.geometry("720x800")
 
 frame_width = 700
-frame_height = 700
+frame_height = 690
 
 frame = tk.Frame(root, width=frame_width, height=frame_height,
                  borderwidth=10, bg='#202020')
@@ -64,26 +84,23 @@ tbx_radius.grid(row=1, column=15)
 tbx_origin_x.grid(row=2, column=15)
 tbx_origin_y.grid(row=3, column=15)
 
-text_var = tk.StringVar()
+text_var = tk.StringVar()       # Variabel för uppdatering av texten
 
-btn_create_sphere = tk.Button(root, width=15, bg='#ffd100', text='Create Sphere', command=lambda: create_sphere(
-    int(tbx_radius.get()), int(tbx_origin_x.get()), int(tbx_origin_y.get())))
+btn_create_sphere = tk.Button(
+    root, width=15, bg='#ffd100', text='Create Sphere', command=create_sphere)
 btn_create_sphere.grid(row=2, column=16)
 
 tbx_file = tk.Entry(root, bg='#202020', fg='#d6d6d6', width=18)
 btn_save_sphere = tk.Button(root, width=15, bg='#ffd100',
-                            text='Save Sphere', command=lambda: save_sphere(create_sphere(
-                                int(tbx_radius.get()), int(tbx_origin_x.get()), int(tbx_origin_y.get())),
-                                tbx_file.get()))
+                            text='Save Sphere', command=lambda: save_sphere(create_sphere(),
+                                                                            tbx_file.get()))
 tbx_file.grid(row=2, column=25)
 btn_save_sphere.grid(row=3, column=25)
 
 show_sphere = tk.StringVar()
 lbl_sphere = tk.Label(frame, width=100, height=100, bg='black',
-                      fg='white', font=('Kemco Pixel', 8), text=text_var.get())
+                      fg='white', font=('Kemco Pixel', 8), text='')
 lbl_sphere.pack()
-
-print(text_var.get())
 
 lbl_sphere.bind('<Button-1>', change_pos)
 

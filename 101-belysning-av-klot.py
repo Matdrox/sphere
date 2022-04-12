@@ -1,3 +1,9 @@
+'''
+Författare: Matei Cananau
+Datum: 2022-04-09
+Revisionsdatum: 2022-04-13
+'''
+
 import math
 
 
@@ -27,7 +33,7 @@ class Sphere:
         :return: Sträng fylld med karaktärer som passar värdena på ljusstyrkan inom
         koordinaterna [-r, r]
         '''
-        light = [' ', '.', '-', '+', '*', 'M', ' ']
+        light = [' ', '.', '-', '+', '*', 'M', ' ', '¨']
         result = ''
         r = self.r
         origin_x = self.origin_x
@@ -58,9 +64,8 @@ class Sphere:
                 elif b > 0.9 and b <= 1:
                     result += light[0]
                 elif b == 2:
-                    # result += light[6]
-                    shadow_x = x + 2*origin_x
-                    shadow_y = y + 2*origin_y
+                    shadow_x = x + 0.5*origin_x
+                    shadow_y = y + 0.5*origin_y
                     try:
                         origin_z = math.sqrt(
                             math.pow(r, 2) - math.pow(shadow_x, 2) - math.pow(shadow_y, 2))
@@ -69,14 +74,11 @@ class Sphere:
                         b = (shadow_x * origin_x + shadow_y * origin_y +
                              z * origin_z)/(math.pow(r, 2))
 
-                        result += 'Y'
+                        result += light[7]
+                        origin_z = math.sqrt(
+                            math.pow(r, 2) - math.pow(origin_x, 2) - math.pow(origin_y, 2))
                     except:
                         result += light[6]
-
-                # P är punkt i bakgrunden: b == 2
-                # O är ursprungspunkten: (origin_x, origin_y)
-                # i är en skalär
-                # Linjen ges av P + iO
             result += '\n'
         return result
 
@@ -110,6 +112,7 @@ def prompt():
     Tar in input för att skapa ett nytt klot
     :Sphere: klot: Skapa nytt klotobjekt
     '''
+    print('The following values will create a 3D ASCII sphere with shadows.')
     try:
         r = int(input('Enter the sphere\'s radius: '))
         origin_x = int(input('Enter the sphere\'s x origin: '))
@@ -117,7 +120,7 @@ def prompt():
         klot = Sphere(r, origin_x, origin_y)
         klot.show()
     except ValueError:
-        print("Your input    is logically incorrect. Please enter new values...")
+        print('Your input is logically incorrect. Please enter new values...')
         return prompt()
 
     wrongs = 0

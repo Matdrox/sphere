@@ -1,3 +1,9 @@
+'''
+Författare: Matei Cananau
+Datum: 2022-04-09
+Revisionsdatum: 2022-04-13
+'''
+
 import math
 
 
@@ -27,7 +33,8 @@ class Sphere:
         :return: Sträng fylld med karaktärer som passar värdena på ljusstyrkan inom
         koordinaterna [-r, r]
         '''
-        light = ['.', ':', '-', '+', '=', '!', ' ', '¨']
+        light = ['.', ':', '-', '+', '=', '!', ' ',
+                 '¨']            # Array för karaktärer (fonten kan inte visa * så jag behövde ändra karaktärerna för fin output).
         result = ''
         n = 50
         m = 50
@@ -37,8 +44,8 @@ class Sphere:
         origin_z = math.sqrt(
             math.pow(r, 2) - math.pow(origin_x, 2) - math.pow(origin_y, 2))
 
-        for y in range(-m, m+1):
-            for x in range(-n, n+1):
+        for y in range(-m, m+1):                # Synintervall m
+            for x in range(-n, n+1):            # Synintervall n
                 try:
                     z = math.sqrt(math.pow(r, 2) -
                                   math.pow(x, 2) - math.pow(y, 2))
@@ -49,16 +56,17 @@ class Sphere:
 
                 if b <= 0:
                     result += light[5]
-                elif b > 0 and b <= 0.3:
+                elif 0 < b <= 0.3:
                     result += light[4]
-                elif b > 0.3 and b <= 0.5:
+                elif 0.3 < b <= 0.5:
                     result += light[3]
-                elif b > 0.5 and b <= 0.7:
+                elif 0.5 < b <= 0.7:
                     result += light[2]
-                elif b > 0.7 and b <= 0.9:
+                elif 0.7 < b <= 0.9:
                     result += light[1]
-                elif b > 0.9 and b <= 1:
+                elif 0.9 < b <= 1:
                     result += light[0]
+                # Om formeln inte är giltig - skapa en cirkel med en offset (skugga)
                 elif b == 2:
                     shadow_x = x + 0.5*origin_x
                     shadow_y = y + 0.5*origin_y
@@ -74,9 +82,18 @@ class Sphere:
                         origin_z = math.sqrt(
                             math.pow(r, 2) - math.pow(origin_x, 2) - math.pow(origin_y, 2))
                     except:
+                        # Om formeln fortfarande inte funkar, blir punkten inte belyst
                         result += light[6]
             result += '\n'
         return result
+
+    def show(self):
+        '''
+        Skriver ut klotet i terminalen
+        :print: Strängen
+        '''
+        art = self.calc()
+        print(art)
 
     def save(self, text_file):
         '''
@@ -88,12 +105,6 @@ class Sphere:
         write_file.write(self.calc())
         write_file.close()
 
-    def calc_shadow(self):      # Inte klart än
-        '''
-        Räknar ut skuggorna
-        :return: Sträng med klotet tillsammans med den uträknade skuggan
-        '''
-
 
 def prompt(r, origin_x, origin_y):        # För GUI
     '''
@@ -103,6 +114,7 @@ def prompt(r, origin_x, origin_y):        # För GUI
     try:
         klot = Sphere(r, origin_x, origin_y)
         klot.calc()
+        # klot.show()               # Activate if no GUI
     except ValueError:
         print("Your input is mathematically incorrect. Please enter new values...")
         return prompt()
@@ -112,3 +124,13 @@ def prompt(r, origin_x, origin_y):        # För GUI
         klot.save(text_file)
     else:
         klot.save(text_file+'.txt')
+
+
+def terminal():
+    r = int(input('Enter the sphere\'s radius: '))
+    origin_x = int(input('Enter the sphere\'s x origin: '))
+    origin_y = int(input('Enter the sphere\'s y origin: '))
+    prompt(r, origin_x, origin_y)
+
+
+# terminal()                        # Activate if no GUI
